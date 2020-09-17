@@ -1,0 +1,50 @@
+name: Terraform Apply
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - 'deployments/*.tf'
+      - '.github/workflows/terraform*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        folders:
+          - deployments/
+    steps:
+    - uses: actions/checkout@master
+    - name: Setup SSH
+      uses: ./.github/actions/bin/sh
+      env:
+        SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+      with:
+        args: '"
+              mkdir -p $HOME/.ssh;
+              echo \"$SSH_PRIVATE_KEY\" > $HOME/.ssh/id_rsa;
+              chmod 400 $HOME/.ssh/id_rsa;
+              "'
+    - name: terraform-init
+      uses: hashicorp/terraform-github-actions@v0.8.0
+      with:
+        tf_actions_version: 0.13.3
+        tf_actions_working_dir: ${{ matrix.folders }}
+        tf_actions_subcommand: 'init'
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        GIT_SSH_COMMAND: "ssh -o StrictHostKeyChecking=no -i $HOME/.ssh/id_rsa"
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: terraform-apply
+      uses: ./.github/actions/terraform/apply
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        TF_ACTION_WORKING_DIR: ${{ matrix.folders }}
+      with:
+        args: '-lock=false'
