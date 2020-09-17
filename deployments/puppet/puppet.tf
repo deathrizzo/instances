@@ -1,5 +1,5 @@
 module "ec2-instance" {
-  source = "../modules/ec2-instance"
+  source = "../../modules/ec2-instance"
 
   name           = "puppetmaster"
   instance_count = 1
@@ -12,9 +12,11 @@ module "ec2-instance" {
   subnet_id              = "subnet-c9bfb78f"
 
   tags = {
-    OS = "ubuntu 18.04"
+    name        = "psdb.deathrizzo.com"
+    OS          = "ubuntu 18.04"
     Terraform   = "true"
     Environment = "dev"
     User        = "Wu-Tang-Clan"
+    Application = "puppetmaster"
   }
 }

@@ -13,6 +13,7 @@ module "ec2-instance" {
   user_data              = "${file("user_data/user_data.sh")}"
 
   tags = {
+    Name        = "k8s.deathrizzo.com"
     OS          = "ubuntu 18.04"
     Terraform   = "true"
     Application = "k8s"
