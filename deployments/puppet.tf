@@ -14,6 +14,6 @@ module "ec2-instance" {
   tags = {
     Terraform   = "true"
     Environment = "dev"
-    User        = "Wu-Tang-Clan"
+    User        = "clan"
   }
 }

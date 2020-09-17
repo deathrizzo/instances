@@ -10,10 +10,10 @@ provider "aws" {
 terraform {
   required_version = ">= 0.13.3"
   required_providers {
-    aws          = ">= 2.27.0"
-    kubernetes   = "1.9"
-    local        = ">= 1.3"
-    null         = ">= 2.1"
+    aws        = ">= 2.27.0"
+    kubernetes = "1.9"
+    local      = ">= 1.3"
+    null       = ">= 2.1"
   }
 
   backend "s3" {
