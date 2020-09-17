@@ -1,7 +1,7 @@
 module "ec2-instance" {
-  source = "../modules/ec2-instance"
+  source = "../../modules/ec2-instance"
 
-  name           = "puppetmaster"
+  name           = "kube"
   instance_count = 1
 
   ami                    = "ami-07a29e5e945228fa1"
@@ -10,10 +10,12 @@ module "ec2-instance" {
   monitoring             = false
   vpc_security_group_ids = ["sg-4147de30"]
   subnet_id              = "subnet-c9bfb78f"
+  user_data              = "${file("user_data/user_data.sh")}"
 
   tags = {
-    OS = "ubuntu 18.04"
+    OS          = "ubuntu 18.04"
     Terraform   = "true"
+    Application = "k8s"
     Environment = "dev"
     User        = "Wu-Tang-Clan"
   }
