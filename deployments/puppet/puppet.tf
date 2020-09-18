@@ -10,7 +10,7 @@ module "ec2-instance" {
   monitoring             = false
   vpc_security_group_ids = ["sg-4147de30"]
   subnet_id              = "subnet-c9bfb78f"
-
+  user_data              = "${file("user_data/puppet_user_data.sh")}"
   tags = {
     name        = "psdb.deathrizzo.com"
     OS          = "ubuntu 18.04"
