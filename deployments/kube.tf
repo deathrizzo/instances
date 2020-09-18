@@ -1,5 +1,5 @@
 module "ec2-instance" {
-  source = "../../modules/ec2-instance"
+  source = "../modules/ec2-instance"
 
   name           = "kube"
   instance_count = 1
