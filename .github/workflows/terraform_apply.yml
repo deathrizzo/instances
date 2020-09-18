@@ -4,7 +4,7 @@ on:
     branches:
       - master
     paths:
-      - 'deployments/*/*.tf'
+      - 'deployments/*.tf'
       - '.github/workflows/terraform*'
 
 jobs:
